@@ -11,4 +11,4 @@ export class UpdatingTextElement extends ShadyElement {
     }
 }
 
-ShadyElement.Register(UpdatingTextElement, "/Examples/Updating Text/UpdatingTextElement/", {css: true});
+ShadyElement.Register(UpdatingTextElement, "/Examples/Updating Text/UpdatingTextElement/");

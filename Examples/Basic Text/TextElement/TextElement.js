@@ -4,4 +4,4 @@ export class TextElement extends ShadyElement {
     
 }
 
-ShadyElement.Register(TextElement, "/Examples/Basic Text/TextElement/", {css: true});
+ShadyElement.Register(TextElement, "/Examples/Basic Text/TextElement/");

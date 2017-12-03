@@ -39,6 +39,7 @@ export class ShadyElement extends HTMLElement {
             let propertyName = `Data${jsUcfirst(camelize(attributeKey))}`;
 
             console.log(`Defining property "${propertyName}" from attribute "data-${attributeKey}"`)
+            
             Object.defineProperty(this, propertyName, {
                 get: () => {
                     return this.dataset[attributeKey];
@@ -118,23 +119,30 @@ export class ShadyElement extends HTMLElement {
         let ourName = obj.name;
         let path = obj.srcPath;
 
-        if (!obj.css)
-        {
-            try {
-                obj.css = await (await fetch(`${window.location.origin}${path}${ourName}.css`)).text();
-            }
-            catch (ex) {
-                console.log(ex);
-            }
-        }
+        if (obj.cssEnabled && !obj.css)
+            obj.css = await (await fetch(`${window.location.origin}${path}${ourName}.css`)).text();
 
         if (!obj.html)
             obj.html = await (await fetch(`${window.location.origin}${path}${ourName}.html`)).text();
     }
 
-    static Register(obj, srcPath) {
+    static Register(obj, srcPathOrOptions) {
+
+        let srcPath = "";
+        let cssEnabled = false;
+
+        if (typeof srcPathOrOptions == "string") {
+            srcPath = srcPathOrOptions;
+        } else if (typeof srcPathOrOptions == "object") {
+            srcPath = "src" in srcPathOrOptions ? srcPathOrOptions.src : null;
+            cssEnabled = "css" in srcPathOrOptions ? srcPathOrOptions.css : false;
+        }
+
+        if (srcPath == null)
+            throw Exception("Panic");
 
         obj.srcPath = srcPath;
+        obj.cssEnabled = cssEnabled;
 
         let name = obj.name;
 
