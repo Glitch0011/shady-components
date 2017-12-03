@@ -92,8 +92,8 @@ export class ShadyElement extends HTMLElement {
 
     render() {
 
-        let wrappedCss = `<style>${this.constructor.css}</style>`;
-        let wrappedHtml = this.constructor.html;
+        let wrappedCss = `<style>${this.constructor.css ? this.constructor.css : this.constructor.inlineCSS}</style>`;
+        let wrappedHtml = this.constructor.html ? this.constructor.html : this.constructor.inlineHTML;
 
         let result;
         while ((result = /(\$\{.*\})/.exec(wrappedHtml)) !== null) {
@@ -119,16 +119,19 @@ export class ShadyElement extends HTMLElement {
         let ourName = obj.name;
         let path = obj.srcPath;
 
+        if (path != null) {
+
         if (obj.cssEnabled && !obj.css)
             obj.css = await (await fetch(`${window.location.origin}${path}${ourName}.css`)).text();
 
         if (!obj.html)
             obj.html = await (await fetch(`${window.location.origin}${path}${ourName}.html`)).text();
+        }
     }
 
     static Register(obj, srcPathOrOptions) {
 
-        let srcPath = "";
+        let srcPath = null;
         let cssEnabled = false;
 
         if (typeof srcPathOrOptions == "string") {
@@ -137,9 +140,6 @@ export class ShadyElement extends HTMLElement {
             srcPath = "src" in srcPathOrOptions ? srcPathOrOptions.src : null;
             cssEnabled = "css" in srcPathOrOptions ? srcPathOrOptions.css : false;
         }
-
-        if (srcPath == null)
-            throw Exception("Panic");
 
         obj.srcPath = srcPath;
         obj.cssEnabled = cssEnabled;
