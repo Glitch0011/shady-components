@@ -9,7 +9,7 @@ function readGetters(obj) {
     return result;
 }
 
-export class ShadyJs extends HTMLElement {
+export class ShadyElement extends HTMLElement {
 
     constructor() {
         super();

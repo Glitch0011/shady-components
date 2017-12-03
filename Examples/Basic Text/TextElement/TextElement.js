@@ -1,7 +1,7 @@
-import {ShadyJs} from "/ShadyJs.js"
+import {ShadyElement} from "/shady.js"
 
-export class TextElement extends ShadyJs {
+export class TextElement extends ShadyElement {
     
 }
 
-ShadyJs.Register(TextElement, "/Examples/Basic Text/TextElement/", {css: true});
+ShadyElement.Register(TextElement, "/Examples/Basic Text/TextElement/", {css: true});
