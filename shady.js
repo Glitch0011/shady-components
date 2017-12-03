@@ -9,6 +9,17 @@ function readGetters(obj) {
     return result;
 }
 
+function camelize(str) {
+    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(letter, index) {
+      return index == 0 ? letter.toLowerCase() : letter.toUpperCase();
+    }).replace(/\s+/g, '');
+  }
+
+function jsUcfirst(string) 
+{
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 export class ShadyElement extends HTMLElement {
 
     constructor() {
@@ -22,23 +33,21 @@ export class ShadyElement extends HTMLElement {
 
     async connectedCallback() {
 
-        for (let key of this.attributes) {
+        for (let attributeKey of Object.keys(this.dataset)) {
 
-            let value = this.attributes[key];
+            let value = this.dataset[attributeKey];
+            let propertyName = `Data${jsUcfirst(camelize(attributeKey))}`;
 
-            if (key instanceof Attr) {
-                value = key.value;
-                key = key.name;
-            }
-
-            try {
-                value = JSON.parse(value)
-            } catch (e) {
-                console.log();
-            }
-
-            Object.defineProperty(this, key.toLowerCase(), {
-                value: value,
+            console.log(`Defining property "${propertyName}" from attribute "data-${attributeKey}"`)
+            Object.defineProperty(this, propertyName, {
+                get: () => {
+                    return this.dataset[attributeKey];
+                },
+                set: (val) => {
+                    console.log("Setting val");
+                    this.render();
+                    this.dataset[attributeKey] = val;
+                },
                 writeable: true,
                 configurable: true
             })
@@ -48,26 +57,7 @@ export class ShadyElement extends HTMLElement {
 
         this.shadow = this.attachShadow({mode: "open"});
 
-        let wrappedCss = `<style>${this.constructor.css}</style>`;
-        let wrappedHtml = this.constructor.html;
-
-        let result;
-        while ((result = /(\$\{.*\})/.exec(wrappedHtml)) !== null) {
-
-            let toReplace = result[0];
-            let key = result[0].replace("${", "").replace("}", "").replace("this.", "").toLowerCase();
-
-            let val = this[key];
-
-            if (val instanceof Array)
-                val = val.join("");
-            if (val instanceof Object)
-                val = JSON.stringify(val, null, 2).trim();
-
-            wrappedHtml = wrappedHtml.replace(toReplace, val);
-        }
-
-        this.render(wrappedCss, wrappedHtml);
+        this.render();
 
         this.recursivelyLink(this.shadowRoot);
 
@@ -99,8 +89,28 @@ export class ShadyElement extends HTMLElement {
         }
     }
 
-    render(css, html) {
-        this.shadow.innerHTML = `${css}${html}`
+    render() {
+
+        let wrappedCss = `<style>${this.constructor.css}</style>`;
+        let wrappedHtml = this.constructor.html;
+
+        let result;
+        while ((result = /(\$\{.*\})/.exec(wrappedHtml)) !== null) {
+
+            let toReplace = result[0];
+            let key = result[0].replace("${", "").replace("}", "").replace("this.", "")
+
+            let val = this[key];
+
+            if (val instanceof Array)
+                val = val.join("");
+            if (val instanceof Object)
+                val = JSON.stringify(val, null, 2).trim();
+
+            wrappedHtml = wrappedHtml.replace(toReplace, val);
+        }
+
+        this.shadow.innerHTML = `${wrappedCss}${wrappedHtml}`
     }
 
     static async Init(obj) {
