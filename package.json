@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Simple method for building WebComponents",
   "main": "shady.js",
-  "dependencies": {},
+  "dependencies": {
+    "stacktrace-js": "^2.0.0"
+  },
   "devDependencies": {
     "http-server": "^0.10.0"
   },
