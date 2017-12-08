@@ -33,7 +33,7 @@ export default class ShadyElement extends HTMLElement {
 
                 attributeKey = attributeKey.toLowerCase();
 
-                console.log(`${attributeKey} = ${val}`);
+                console.debug(`${attributeKey} = ${val}`);
                 
                 if (val === false)
                     delete this.dataset[attributeKey]
