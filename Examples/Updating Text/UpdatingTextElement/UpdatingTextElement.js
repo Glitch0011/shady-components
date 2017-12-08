@@ -6,8 +6,8 @@ export class UpdatingTextElement extends ShadyElement {
 
         setInterval(() =>
         {
-            this.DataText = (parseInt(this.DataText) + 1).toString();
-        }, this.DataInterval);
+            this.Data.Text = (parseInt(this.Data.Text) + 1).toString();
+        }, this.Data.Interval);
     }
 }
 

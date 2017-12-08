@@ -1,25 +1,3 @@
-function readGetters(obj) {
-    var result = [];
-    Object.keys(obj).forEach((property) => {
-        var descriptor = Object.getOwnPropertyDescriptor(obj, property);
-        if (typeof descriptor.get === 'function') {
-            result.push(property);
-        }
-    });
-    return result;
-}
-
-function camelize(str) {
-    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(letter, index) {
-      return index == 0 ? letter.toLowerCase() : letter.toUpperCase();
-    }).replace(/\s+/g, '');
-  }
-
-function jsUcfirst(string) 
-{
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 export class ShadyElement extends HTMLElement {
 
     constructor() {
@@ -33,25 +11,48 @@ export class ShadyElement extends HTMLElement {
 
     async connectedCallback() {
 
+        let handler = {
+            get: (a, attributeKey) => {
+
+                attributeKey = attributeKey.toLowerCase();
+
+                let val = this.dataset[attributeKey];
+                
+                if (val == "")
+                    return true;
+                else if (val == "false" || val == undefined)
+                    return false;
+                else if (val == "true")
+                    return true;
+                else
+                    return val;
+            },
+            set: (a, attributeKey, val) => {
+
+                attributeKey = attributeKey.toLowerCase();
+
+                console.log(`${attributeKey} = ${val}`);
+                
+                if (val === false)
+                    delete this.dataset[attributeKey]
+                else if (val == true)
+                    this.dataset[attributeKey] = "";
+                else 
+                    this.dataset[attributeKey] = val;
+
+                this.render();
+
+                return true;
+            }
+        };
+
+        this.Data = new Proxy({}, handler);
+
+
         for (let attributeKey of Object.keys(this.dataset)) {
 
             let value = this.dataset[attributeKey];
-            let propertyName = `Data${jsUcfirst(camelize(attributeKey))}`;
-
-            console.log(`Defining property "${propertyName}" from attribute "data-${attributeKey}"`)
-            
-            Object.defineProperty(this, propertyName, {
-                get: () => {
-                    return this.dataset[attributeKey];
-                },
-                set: (val) => {
-                    console.log("Setting val");
-                    this.render();
-                    this.dataset[attributeKey] = val;
-                },
-                writeable: true,
-                configurable: true
-            })
+            console.log(`Defining property "Data.${attributeKey}" from attribute "data-${attributeKey}"`)
         }
 
         await Promise.all(this.constructor.loadingPromise);
@@ -101,7 +102,8 @@ export class ShadyElement extends HTMLElement {
             let toReplace = result[0];
             let key = result[0].replace("${", "").replace("}", "").replace("this.", "")
 
-            let val = this[key];
+
+            let val = this.Data[key];
 
             if (val instanceof Array)
                 val = val.join("");
