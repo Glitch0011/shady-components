@@ -63,8 +63,6 @@ export class ShadyElement extends HTMLElement {
 
         this.render();
 
-        this.recursivelyLink(this.shadowRoot);
-
         this.querySelector = (selector) => {
             return this.shadow.querySelector(selector);
         };
@@ -116,6 +114,8 @@ export class ShadyElement extends HTMLElement {
         }
 
         this.shadow.innerHTML = `${wrappedCss}${wrappedHtml}`
+
+        this.recursivelyLink(this.shadowRoot);
     }
 
     static async Init(obj) {
