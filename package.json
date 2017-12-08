@@ -1,7 +1,7 @@
 {
   "name": "shady",
   "version": "1.0.0",
-  "description": "",
+  "description": "Simple method for building WebComponents",
   "main": "shady.js",
   "dependencies": {},
   "devDependencies": {
@@ -10,6 +10,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Tom Bonner",
+  "license": "ISC",
+  "repository": "https://github.com/Glitch0011/shady",
+  "private": true
 }
