@@ -1,4 +1,4 @@
-import {ShadyElement} from "/shady.js"
+import ShadyElement from "/shady.js"
 
 export class ClickableElement extends ShadyElement {
 

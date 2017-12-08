@@ -1,7 +1,9 @@
-import {ShadyElement} from "/shady.js"
+import ShadyElement from "/shady.js"
 
 export class UpdatingTextElement extends ShadyElement {
+
     connectedCallback() {
+
         super.connectedCallback();
 
         setInterval(() =>
@@ -11,4 +13,4 @@ export class UpdatingTextElement extends ShadyElement {
     }
 }
 
-ShadyElement.Register(UpdatingTextElement, "/Examples/Updating Text/UpdatingTextElement/");
+ShadyElement.Register(UpdatingTextElement);;

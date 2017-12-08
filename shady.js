@@ -1,6 +1,6 @@
 import "./node_modules/stacktrace.js/stacktrace.min.js"
 
-export class ShadyElement extends HTMLElement {
+export default class ShadyElement extends HTMLElement {
 
     constructor() {
         super();
