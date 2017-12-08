@@ -1,3 +1,5 @@
+import "./node_modules/stacktrace.js/stacktrace.min.js"
+
 export class ShadyElement extends HTMLElement {
 
     constructor() {
@@ -118,33 +120,24 @@ export class ShadyElement extends HTMLElement {
 
     static async Init(obj) {
 
-        let ourName = obj.name;
-        let path = obj.srcPath;
+        let stack = await StackTrace.get({offline: true});
+    
+        let fileName = stack[stack.length-1].fileName;
 
-        if (path != null) {
+        let pathNoExtension = /(.*)\..*/.exec(fileName)[1];
 
-        if (obj.cssEnabled && !obj.css)
-            obj.css = await (await fetch(`${window.location.origin}${path}${ourName}.css`)).text();
+        if (obj.cssEnabled && !obj.css && !obj.inlineCSS)
+            obj.css = await (await fetch(`${pathNoExtension}.css`)).text();
 
-        if (!obj.html)
-            obj.html = await (await fetch(`${window.location.origin}${path}${ourName}.html`)).text();
-        }
+        if (!obj.html && !obj.inlineHTML)
+            obj.html = await (await fetch(`${pathNoExtension}.html`)).text();
     }
 
-    static Register(obj, srcPathOrOptions) {
+    static Register(obj, options) {
 
-        let srcPath = null;
-        let cssEnabled = false;
-
-        if (typeof srcPathOrOptions == "string") {
-            srcPath = srcPathOrOptions;
-        } else if (typeof srcPathOrOptions == "object") {
-            srcPath = "src" in srcPathOrOptions ? srcPathOrOptions.src : null;
-            cssEnabled = "css" in srcPathOrOptions ? srcPathOrOptions.css : false;
+        if (typeof options == "object") {
+            obj.cssEnabled = "css" in options;
         }
-
-        obj.srcPath = srcPath;
-        obj.cssEnabled = cssEnabled;
 
         let name = obj.name;
 

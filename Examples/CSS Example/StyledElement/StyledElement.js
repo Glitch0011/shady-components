@@ -4,7 +4,4 @@ export class StyledElement extends ShadyElement {
 
 }
 
-ShadyElement.Register(StyledElement, {
-    src: "/Examples/CSS Example/StyledElement/",
-    css: true
-});
+ShadyElement.Register(StyledElement, { css: true });

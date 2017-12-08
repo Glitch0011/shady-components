@@ -8,4 +8,4 @@ export class ClickableElement extends ShadyElement {
     }
 }
 
-ShadyElement.Register(ClickableElement, { src:"/Examples/Bound Events/ClickableElement/", css: true});
+ShadyElement.Register(ClickableElement, { css: true });
