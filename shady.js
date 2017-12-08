@@ -102,14 +102,18 @@ export default class ShadyElement extends HTMLElement {
             let toReplace = result[0];
             let key = result[0].replace("${", "").replace("}", "").replace("this.", "")
 
+            let val = "";
 
-            let val = this.Data[key];
+            if (this[key] != null) {
+                val = this[key];
+            } else {
+                val = this.Data[key];
 
-            if (val instanceof Array)
-                val = val.join("");
-            if (val instanceof Object)
-                val = JSON.stringify(val, null, 2).trim();
-
+                if (val instanceof Array)
+                    val = val.join("");
+                if (val instanceof Object)
+                    val = JSON.stringify(val, null, 2).trim();
+            }
             wrappedHtml = wrappedHtml.replace(toReplace, val);
         }
 
