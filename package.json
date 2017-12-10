@@ -4,6 +4,7 @@
   "description": "Simple method for building WebComponents",
   "main": "shady.js",
   "dependencies": {
+    "@webcomponents/webcomponentsjs": "webcomponents/webcomponentsjs",
     "stacktrace-js": "^2.0.0"
   },
   "devDependencies": {
