@@ -2,55 +2,72 @@
 
 Shady.js allows you to create absurdly simple WebComponents.
 
-You start with a solid file-structure:
-
-```
-- Basic Text
-|
--- index.html
--- TextElement
- |
- -- TextElement.html
- -- TextElement.js
-```
-
-First let's fill in some get some HTML to `index.html`:
-
-```
-<html>
-    <head>
-        <script type="module" src="./TextElement/TextElement.js"></script>
-    </head>
-    <body>
-        <text-element data-name="Tom"></text-element>
-    </body>
-</html>
-```
-
-Now let's create a vauge html within `TextElement.html`:
-
-```
-<div>
-    <span>Hi ${Name}</span>
-</div>
-```
-
-Notice how we use the exact same fantastic string interpolation coming in ES2017. Now we just need some javasciprt to describe the WebComponent in `TextElement.js`:
+First let's create a WebComponent in `UpperElement.html`:
 
 ```
 import ShadyElement from "/shady.js"
 
-export class TextElement extends ShadyElement {
-    
+export class UpperElement extends ShadyElement {
+
+    get Upper() {
+        return this.Data.Text.toUpperCase();
+    }
 }
 
-ShadyElement.Register(TextElement);
-
+ShadyElement.Register(UpperElement);
 ```
 
-And that's it! Now if you navigate to that page you'll see the page correctly showing `Hi Tom`. I've really tried to get rid of the final TextElement line but that's tricky (thoughts welcome as a PR).
+This registers a WebComponent called `UpperElement` with a tag of `upper-element` with a property that returns the upper-case `Data.Text`. Now let's define the WebComponent's HTML.
 
+Shady.js automatically requests an HTML file of the same name as the JS file, so in `UpperElement.html` we write:
+
+```
+<span>${Upper}</span>
+```
+
+This will insert the `Upper` property when the WebComponent renders. The WebComponent `upper-element` is now complete!
+
+To import it into a site, let's create an `index.html` page as such:
+
+```
+<html>
+    <head>
+        <script type="module" src="./UpperElement.js"></script>
+    </head>
+    <body>
+        <div>
+            <upper-element data-text="Hello, World!"></upper-element>
+        </div>
+    </body>
+</html>
+```
+
+Parameters are passed into the WebComponent via `data-*` arguments, which are mapped to `Data.*` properties within the JS which we use in the property.
+
+When we visit `index.html` we see:
+
+```
+HELLO, WORLD!
+```
+
+And that's it!
+
+## Are there more examples?
+
+Sure, check out more examples here, with their representive code in the repo here.
+
+## How on earth does it know where the HTML is?!
+
+I'm sorry... 
+
+Until various meta properties are exposed I had to do something slightly dirty. Ready yourself.. 
+
+It uses `stacktrace.js` to acces the stacktrace and uses file-information from that to locate itself and the relative files.
+
+## I morally cannot do that, can I inline the HTML and CSS?
+
+Sure! Check out the `Inline Register` example to see how. The basic logic is to use a build-step to append the static members `.inlineHTML` & `inlineCSS` which shady.js will then use. Any help adding a guide or tool to gulp to do would be a great help!
 
 ## Warranty
 
-It's hacky, slow, has terrible edge cases and should only really be used for making fun home projects.
+It's hacky, slow, has terrible edge cases so should only really be used for making fun home projects.
