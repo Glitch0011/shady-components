@@ -93,7 +93,9 @@ export default class ShadyElement extends HTMLElement {
 
     render() {
 
-        let wrappedCss = `<style>${this.constructor.css ? this.constructor.css : this.constructor.inlineCSS}</style>`;
+        let css = this.constructor.css ? this.constructor.css : this.constructor.inlineCSS;
+
+        let wrappedCss = css ? `<style>${css}</style>` : "";
         let wrappedHtml = this.constructor.html ? this.constructor.html : this.constructor.inlineHTML;
 
         let result;
@@ -117,7 +119,7 @@ export default class ShadyElement extends HTMLElement {
             wrappedHtml = wrappedHtml.replace(toReplace, val);
         }
 
-        this.shadow.innerHTML = `${wrappedCss}${wrappedHtml}`
+        this.shadow.innerHTML = `${wrappedCss}${wrappedHtml ? wrappedHtml : ""}`
 
         this.recursivelyLink(this.shadowRoot);
     }
@@ -133,7 +135,7 @@ export default class ShadyElement extends HTMLElement {
         if (obj.cssEnabled && !obj.css && !obj.inlineCSS)
             obj.css = await (await fetch(`${pathNoExtension}.css`)).text();
 
-        if (!obj.html && !obj.inlineHTML)
+        if (obj.htmlEnabled && !obj.html && !obj.inlineHTML)
             obj.html = await (await fetch(`${pathNoExtension}.html`)).text();
     }
 
@@ -141,6 +143,14 @@ export default class ShadyElement extends HTMLElement {
 
         if (typeof options == "object") {
             obj.cssEnabled = "css" in options;
+
+            if (!("html" in options))
+                obj.htmlEnabled = true;
+            else 
+                obj.HTMLElement = options["html"];
+        } else {
+            obj.cssEnabled = false;
+            obj.htmlEnabled = true;
         }
 
         let name = obj.name;
