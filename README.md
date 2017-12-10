@@ -17,7 +17,7 @@ export class UpperElement extends ShadyElement {
 ShadyElement.Register(UpperElement);
 ```
 
-This registers a WebComponent called `UpperElement` with a tag of `upper-element` with a property that returns the upper-cased `Data.Text`. Now let's define the WebComponent's HTML.
+This registers a WebComponent `upper-element` with a property that returns the upper-case `Data.Text`. Now let's define the WebComponent's HTML.
 
 Shady.js automatically requests an HTML file of the same name as the JS file, so in `UpperElement.html` we write:
 
@@ -52,15 +52,17 @@ HELLO, WORLD!
 
 And that's it!
 
+Check the examples for idea's on what this tech can be used for.
+
 ## FAQ
 
 ### What does this work on?
 
-Currently this works with no other steps in Chrome. To make it work on other browsers requires a mix of steps involing translating it with `Babel.js` to a lower JS level and adding polyfills. An example of this can be found in the example `Polyfill Demo`
+Currently this works with no other steps in Chrome. To make it work on other browsers requires a mix of steps involving translating it with `Babel.js` to a lower JS level and adding polyfills. An example of this can be found in the example `Polyfill Demo`.
 
 ### Are there more examples?
 
-Sure, check out more examples here, with their representive code in the repo here.
+Sure, check out more examples here, with their code in the repo here.
 
 ### How on earth does it know where the HTML is?!
 
@@ -68,7 +70,7 @@ I'm sorry... please don't judge me.
 
 Until various meta properties are exposed I had to do something slightly dirty. Ready yourself.. 
 
-It uses `stacktrace.js` to acces the current stack-trace and uses file-information from that to locate itself and the relative files.
+It uses `stacktrace.js` to access the current stack-trace and uses file-information from that to locate itself and the relative files.
 
 ### I cannot morally do that, can I inline the HTML and CSS?
 
@@ -77,3 +79,9 @@ Sure! Check out the `Inline Register` example to see how. The basic logic is to 
 ## Warranty
 
 It's hacky, slow and has terrible edge cases so should only really be used for making fun home projects.
+
+## Credits
+
+Currently I (Tom Bonner) have written the basic framework with the hope for more contributors. 
+
+The excellent people behind the Polymer Framework are owed credit given they were a major source of inspiration and introduced me to Web Components.
