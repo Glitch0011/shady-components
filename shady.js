@@ -158,7 +158,9 @@ export default class ShadyElement extends HTMLElement {
 
         console.log(`Defining custom element "${name}"`)
 
-        this.loadingPromise = [];
+        if (!this.loadingPromise)
+            this.loadingPromise = [];
+            
         this.loadingPromise.push(this.Init(obj));
 
         customElements.define(name, obj);        
