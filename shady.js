@@ -50,7 +50,6 @@ export default class ShadyElement extends HTMLElement {
 
         this.Data = new Proxy({}, handler);
 
-
         for (let attributeKey of Object.keys(this.dataset)) {
 
             let value = this.dataset[attributeKey];
