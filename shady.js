@@ -1,4 +1,4 @@
-import "./node_modules/stacktrace-js/dist/stacktrace.js"
+import "/node_modules/stacktrace-js/dist/stacktrace.js"
 
 export default class ShadyElement extends HTMLElement {
 
