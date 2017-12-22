@@ -109,7 +109,7 @@ export default class ShadyElement extends HTMLElement {
         }
     }
 
-    render() {
+    async render() {
 
         let css = this.constructor.css ? this.constructor.css : this.constructor.inlineCSS;
 
@@ -125,9 +125,16 @@ export default class ShadyElement extends HTMLElement {
             let val = "";
 
             if (this[key] != null) {
-                val = this[key];
+
+                if (this[key] instanceof Promise)
+                    val = await this[key]
+                else
+                    val = this[key];
             } else {
                 val = this.Data[key];
+
+                if (val instanceof Promise)
+                    val = await val;
 
                 if (val instanceof Array)
                     val = val.join("");
