@@ -11,6 +11,30 @@ export default class ShadyElement extends HTMLElement {
             }
     }
 
+    getDataset(val) {
+        for (let key in this.dataset) {
+            if (key.toLowerCase() == val) {
+                return key;
+            }
+        }
+    }
+
+    setDataset(val, data) {
+        for (let key in this.dataset) {
+            if (key.toLowerCase() == val) {
+
+                if (data === false)
+                    delete this.dataset[attributeKey]
+                else if (data == true)
+                    this.dataset[attributeKey] = "";
+                else 
+                    this.dataset[attributeKey] = data;
+                    
+                return;
+            }
+        }
+    }
+
     async connectedCallback() {
 
         let handler = {
@@ -18,8 +42,8 @@ export default class ShadyElement extends HTMLElement {
 
                 attributeKey = attributeKey.toLowerCase();
 
-                let val = this.dataset[attributeKey];
-                
+                let val = this.dataset[this.getDataset(attributeKey)]
+
                 if (val == "")
                     return true;
                 else if (val == "false" || val == undefined)
@@ -34,14 +58,9 @@ export default class ShadyElement extends HTMLElement {
                 attributeKey = attributeKey.toLowerCase();
 
                 console.debug(`${attributeKey} = ${val}`);
-                
-                if (val === false)
-                    delete this.dataset[attributeKey]
-                else if (val == true)
-                    this.dataset[attributeKey] = "";
-                else 
-                    this.dataset[attributeKey] = val;
 
+                this.setDataset(attributeKey, data);
+                
                 this.render();
 
                 return true;
