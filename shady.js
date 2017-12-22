@@ -136,6 +136,7 @@ export default class ShadyElement extends HTMLElement {
 
         if (obj.htmlEnabled && !obj.html && !obj.inlineHTML)
             obj.html = await (await fetch(`${pathNoExtension}.html`)).text();
+        return obj;
     }
 
     static Register(obj, options) {
