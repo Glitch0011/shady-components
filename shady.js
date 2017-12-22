@@ -124,12 +124,14 @@ export default class ShadyElement extends HTMLElement {
 
             let val = "";
 
-            if (this[key] != null) {
+            if (key in this) {
 
-                if (this[key] instanceof Promise)
-                    val = await this[key]
+                let res = this[key];
+
+                if (res instanceof Promise)
+                    val = await res
                 else
-                    val = this[key];
+                    val = res;
             } else {
                 val = this.Data[key];
 
