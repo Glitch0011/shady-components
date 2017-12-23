@@ -120,8 +120,13 @@ export default class ShadyElement extends HTMLElement {
         let wrappedCss = css ? `<style>${css}</style>` : "";
         let wrappedHtml = this.constructor.html ? this.constructor.html : this.constructor.inlineHTML;
 
+        let toReplaceList = [];
+
         let result;
-        while ((result = /(\$\{.*\})/.exec(wrappedHtml)) !== null) {
+
+        let pattern = /(\$\{.*\})/g;
+
+        while (result = pattern.exec(wrappedHtml)) {
 
             let toReplace = result[0];
             let key = result[0].replace("${", "").replace("}", "").replace("this.", "")
@@ -147,7 +152,15 @@ export default class ShadyElement extends HTMLElement {
                 if (val instanceof Object)
                     val = JSON.stringify(val, null, 2).trim();
             }
-            wrappedHtml = wrappedHtml.replace(toReplace, val);
+
+            toReplaceList.push({
+                "toReplace": toReplace,
+                "val": val
+            })
+        }
+            
+        for (let item of toReplaceList) {
+            wrappedHtml = wrappedHtml.replace(item.toReplace, item.val);
         }
 
         this.shadow.innerHTML = `${wrappedCss}${wrappedHtml ? wrappedHtml : ""}`
