@@ -84,6 +84,10 @@ export default class ShadyElement extends HTMLElement {
         this.querySelector = (selector) => {
             return this.shadow.querySelector(selector);
         };
+
+        this.querySelectorAll = (selector) => {
+            return this.shadow.querySelectorAll(selector);
+        };
     }
 
     recursivelyLink(node) {
