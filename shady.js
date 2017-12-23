@@ -166,6 +166,13 @@ export default class ShadyElement extends HTMLElement {
         this.shadow.innerHTML = `${wrappedCss}${wrappedHtml ? wrappedHtml : ""}`
 
         this.recursivelyLink(this.shadowRoot);
+
+        if ("afterRender" in this)
+            this.afterRender()
+    }
+
+    afterRender() {
+
     }
 
     static async Init(obj) {
