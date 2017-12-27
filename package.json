@@ -1,6 +1,6 @@
 {
-  "name": "shady",
   "version": "1.0.0",
+  "name": "shady-components",
   "description": "Simple method for building WebComponents",
   "main": "shady.js",
   "dependencies": {
