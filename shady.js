@@ -24,11 +24,11 @@ export default class ShadyElement extends HTMLElement {
             if (key.toLowerCase() == val) {
 
                 if (data === false)
-                    delete this.dataset[attributeKey]
+                    delete this.dataset[val]
                 else if (data == true)
-                    this.dataset[attributeKey] = "";
+                    this.dataset[val] = "";
                 else 
-                    this.dataset[attributeKey] = data;
+                    this.dataset[val] = data;
                     
                 return;
             }
@@ -59,7 +59,7 @@ export default class ShadyElement extends HTMLElement {
 
                 console.debug(`${attributeKey} = ${val}`);
 
-                this.setDataset(attributeKey, data);
+                this.setDataset(attributeKey, val);
                 
                 this.render();
 
