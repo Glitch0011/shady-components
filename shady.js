@@ -72,7 +72,9 @@ export default class ShadyElement extends HTMLElement {
         for (let attributeKey of Object.keys(this.dataset)) {
 
             let value = this.dataset[attributeKey];
-            console.log(`Defining property "Data.${attributeKey}" from attribute "data-${attributeKey}"`)
+            
+            if (this.constructor.log)
+                console.log(`Defining property "Data.${attributeKey}" from attribute "data-${attributeKey}"`)
         }
 
         await Promise.all(this.constructor.loadingPromise);
@@ -195,6 +197,7 @@ export default class ShadyElement extends HTMLElement {
 
         if (typeof options == "object") {
             obj.cssEnabled = "css" in options;
+            obj.log = "log" in options && options["log"];
 
             if (!("html" in options))
                 obj.htmlEnabled = true;
@@ -209,7 +212,8 @@ export default class ShadyElement extends HTMLElement {
 
         name = name.replace(/(?!^)([A-Z])/g, "-$&").toLowerCase();
 
-        console.log(`Defining custom element "${name}"`)
+        if (obj.log)
+            console.log(`Defining custom element "${name}"`)
 
         if (!this.loadingPromise)
             this.loadingPromise = [];
