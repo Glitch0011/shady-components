@@ -1,11 +1,9 @@
-# Shady.js
-
-Shady.js lets you to create absurdly simple WebComponents.
+Shady-Components lets you to create absurdly simple WebComponents.
 
 First let's create a WebComponent in a file called `UpperElement.js`:
 
 ```
-import ShadyElement from "/shady.js"
+import ShadyElement from "/node_modules/shady-components/shady.js"
 
 export class UpperElement extends ShadyElement {
 
@@ -82,6 +80,6 @@ It's hacky, slow and has terrible edge cases so should only really be used for m
 
 ## Credits
 
-Currently I (Tom Bonner) have written the basic framework with the hope for more contributors. 
+Currently I (Tom Bonner) have written the basic framework with the hope for more contributors.
 
 The excellent people behind the Polymer Framework are owed credit given they were a major source of inspiration and introduced me to Web Components.
