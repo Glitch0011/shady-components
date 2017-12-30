@@ -126,7 +126,7 @@ export default class ShadyElement extends HTMLElement {
 
         let result;
 
-        let pattern = /(\$\{.*\})/g;
+        let pattern = /(\$\{.*?\})/g;
 
         while (result = pattern.exec(wrappedHtml)) {
 
