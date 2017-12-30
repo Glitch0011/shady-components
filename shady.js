@@ -33,6 +33,8 @@ export default class ShadyElement extends HTMLElement {
                 return;
             }
         }
+
+        this.dataset[val.toLowerCase()] = data;
     }
 
     async connectedCallback() {
