@@ -117,6 +117,9 @@ export default class ShadyElement extends HTMLElement {
 
     async render() {
 
+        if ("beforeRender" in this)
+            this.beforeRender()
+
         let css = this.constructor.css ? this.constructor.css : this.constructor.inlineCSS;
 
         let wrappedCss = css ? `<style>${css}</style>` : "";
@@ -171,6 +174,10 @@ export default class ShadyElement extends HTMLElement {
 
         if ("afterRender" in this)
             this.afterRender()
+    }
+
+    beforeRender() {
+
     }
 
     afterRender() {
