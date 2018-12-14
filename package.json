@@ -26,10 +26,10 @@
   ],
   "source": "shady.js",
   "scripts": {
-    "build": "rollup --config .\rollup.config.js",
+    "build": "rollup --config ./rollup.config.js",
     "serve": "http-server ./",
     "deploy": "npm-run-all deploy:**",
-    "deploy:build": "npm run build"
+    "deploy:build": "npm run build",
     "deploy:bump": "npm version minor",
     "deploy:publish": "npm publish"
   },
