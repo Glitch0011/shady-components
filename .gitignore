@@ -219,3 +219,4 @@ _Pvt_Extensions
 yarn\.lock
 node_modules
 .cache
+dist
