@@ -7,8 +7,14 @@
     "@webcomponents/webcomponentsjs": "^2.2.1",
     "stacktrace-js": "^2.0.0"
   },
+  "browserslist": [
+    "last 1 Chrome version"
+  ],
   "devDependencies": {
     "http-server": "^0.10.0"
+  },
+  "scripts": {
+    "serve": "http-server ./"
   },
   "author": "Tom Bonner",
   "license": "MIT",
