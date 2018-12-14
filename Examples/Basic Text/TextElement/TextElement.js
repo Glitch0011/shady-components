@@ -1,4 +1,4 @@
-import ShadyElement from "/shady.js"
+import ShadyElement from "/dist/shady.js"
 
 export class TextElement extends ShadyElement {
     

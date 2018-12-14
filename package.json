@@ -2,19 +2,36 @@
   "name": "shady-components",
   "version": "0.4.0",
   "description": "Simple method for building WebComponents",
-  "main": "shady.js",
+  "main": "./dist/shady.js",
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.2.1",
     "stacktrace-js": "^2.0.0"
   },
-  "browserslist": [
-    "last 1 Chrome version"
-  ],
+  "browserslist": "> 0.25%",
   "devDependencies": {
-    "http-server": "^0.10.0"
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-minify": "^0.5.0",
+    "http-server": "^0.10.0",
+    "microbundle": "^0.8.3",
+    "npm-run-all": "^4.1.5",
+    "parcel": "^1.10.3",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^4.0.0"
   },
+  "files": [
+    "Examples",
+    "shady.js",
+    "dist"
+  ],
+  "source": "shady.js",
   "scripts": {
-    "serve": "http-server ./"
+    "build": "rollup --config .\rollup.config.js",
+    "serve": "http-server ./",
+    "deploy": "npm-run-all deploy:**",
+    "deploy:build": "npm run build"
+    "deploy:bump": "npm version minor",
+    "deploy:publish": "npm publish"
   },
   "author": "Tom Bonner",
   "license": "MIT",
